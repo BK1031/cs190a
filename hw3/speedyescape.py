@@ -3,14 +3,14 @@ from heapq import heappop, heappush
 
 input = sys.stdin.readline
 
-num_nodes, num_edges, exclusion_factor = map(int, input().split())
+num_nodes, num_edges, num_exits = map(int, input().split())
 graph_matrix = [[float('inf')] * num_nodes for _ in range(num_nodes)]
 
 for _ in range(num_edges):
     start, end, length = map(int, input().split())
     graph_matrix[start - 1][end - 1] = graph_matrix[end - 1][start - 1] = min(graph_matrix[start - 1][end - 1], length)
 
-excluded_nodes = [int(x) - 1 for x in input().split()]
+exit_nodes = [int(x) - 1 for x in input().split()]
 start_node, target_node = map(lambda x: int(x) - 1, input().split())
 
 adjacency_list = [{} for _ in range(num_nodes)]
@@ -41,7 +41,7 @@ while priority_queue:
                 node_state[next_node] = new
                 heappush(priority_queue, (*new, next_node))
 
-min_path_length = min(160 * node_state[x][0] for x in excluded_nodes)
+min_path_length = min(160 * node_state[x][0] for x in exit_nodes)
 if min_path_length > 1e9:
     print('IMPOSSIBLE')
 else:
